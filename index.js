@@ -1,10 +1,23 @@
-const pullAtValue = (arr, pullArr) => {
-  let removed = [],
-    pushToRemove = arr.forEach((v, i) =>
-      pullArr.includes(v) ? removed.push(v) : v,
-    ),
-    mutateTo = arr.filter((v, i) => !pullArr.includes(v));
-  arr.length = 0;
-  mutateTo.forEach((v) => arr.push(v));
-  return removed;
-};
+function zigzagLevelOrder(root) {
+  if (!root) return [];
+  const result = [];
+  let isReverse = false;
+  const queue = [root];
+  while (queue.length) {
+    const size = queue.length;
+    const level = [];
+    for (let i = 0; i < size; i++) {
+      const node = queue.shift();
+      if (isReverse) {
+        level.unshift(node.val);
+      } else {
+        level.push(node.val);
+      }
+      if (node.left) queue.push(node.left);
+      if (node.right) queue.push(node.right);
+    }
+    result.push(level);
+    isReverse = !isReverse;
+  }
+  return result;
+}
